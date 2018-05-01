@@ -13,7 +13,7 @@ function getRandomColors() {
     for (let j = 0; j < 6; j++) {
       color += letters[Math.round(Math.random() * 15)];
     }
-    colorsArray.push({ color, locked: false });
+    colorsArray.push(color);
   }
  
   return colorsArray;
@@ -21,12 +21,15 @@ function getRandomColors() {
 
 function generatePalette() {
   const colorsArray = getRandomColors();
-  colorsArray.map((colorObj, index) => {
-    $(`.color${index}`).css('background-color', colorObj.color);
-    $(`.color${index}`).children('span').text(colorObj.color);
+  colorsArray.map((color, index) => {
+    if (!$(`.color${index}`).hasClass('lock')) {
+      $(`.color${index}`).css('background-color', color);
+      $(`.color${index}`).children('span').text(color); 
+    }
   });
 }
 
 function toggleLock() {
   $(this).find('img').toggle();
+  $(this).toggleClass('lock');
 }
