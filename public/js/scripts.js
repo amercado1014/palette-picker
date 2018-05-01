@@ -1,5 +1,8 @@
+window.onload = () => {
+  generatePalette();
+}
+
 $('.generate-button').on('click', generatePalette);
-generatePalette();
 
 function getRandomColors() {
   const colorsArray = [];
@@ -9,15 +12,16 @@ function getRandomColors() {
     for (let j = 0; j < 6; j++) {
       color += letters[Math.round(Math.random() * 15)];
     }
-    colorsArray.push(color);
+    colorsArray.push({ color, locked: false });
   }
-  console.log(colorsArray)
+ 
   return colorsArray;
 }
 
 function generatePalette() {
   const colorsArray = getRandomColors();
-  colorsArray.map((color, index) => {
-    $(`.color${index}`).css('background-color',`${color}`)
+  colorsArray.map((colorObj, index) => {
+    $(`.color${index}`).css('background-color', colorObj.color);
+    $(`.color${index}`).children('span').text(colorObj.color);
   });
 }
