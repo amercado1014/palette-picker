@@ -3,6 +3,7 @@ window.onload = () => {
 }
 
 $('.generate-button').on('click', generatePalette);
+$('.colors').on('click', toggleLock);
 
 function getRandomColors() {
   const colorsArray = [];
@@ -24,4 +25,8 @@ function generatePalette() {
     $(`.color${index}`).css('background-color', colorObj.color);
     $(`.color${index}`).children('span').text(colorObj.color);
   });
+}
+
+function toggleLock() {
+  $(this).find('img').toggle();
 }
