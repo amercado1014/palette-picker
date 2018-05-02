@@ -35,3 +35,14 @@
 .locked {
   display: none;
 }
+
+.project-colors {
+  height: 30px;
+  width: 30px;
+  display: inline-block;
+}
+
+.delete-palette {
+  height: 30px;
+  widows: 30px;
+}

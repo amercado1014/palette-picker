@@ -4,7 +4,8 @@ window.onload = () => {
 
 $('.generate-button').on('click', generatePalette);
 $('.colors').on('click', toggleLock);
-$('.save-project').on('click', saveProject)
+$('.save-project').on('click', prependProject);
+$('.save-palette').on('click', prependPalette);
 
 function getRandomColors() {
   const colorsArray = [];
@@ -35,15 +36,41 @@ function toggleLock() {
   $(this).toggleClass('lock');
 }
 
-function saveProject() {
+function prependProject() {
   const project = $('#project-input').val();
-  $('.projects').append(`
-    <div class=${project}>
+  $(".projects").prepend(`
+    <article>
       <h2>${project}</h2>
-    </div>
-  `)
-  $('#select-project').append(`
+      <div class=${project}></div>
+    </article>
+  `);
+  $('#select-project').prepend(`
     <option value=${project}>${project}</option>
   `)
   $('#project-input').val('');
 }
+
+function prependPalette() {
+  const paletteName = $('.palette-input').val();
+  const projectName = $('#select-project').val();
+  const colors = $.map($('span'), element => $(element).text());
+
+  const paletteColors = colors.map(color => {
+    return (`
+      <div class="project-colors"
+        style="background-color:${color}">
+      </div>
+    `)
+  })
+
+  $(`.${projectName}`).prepend(`
+    <article>
+      <p>${paletteName}</p>
+      ${paletteColors.join('')}
+      <img class="delete-palette" 
+        src="../images/waste-bin.svg" 
+        alt="trash can"/>
+    </article>
+  `)
+}
+
