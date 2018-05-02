@@ -4,6 +4,7 @@ window.onload = () => {
 
 $('.generate-button').on('click', generatePalette);
 $('.colors').on('click', toggleLock);
+$('.save-project').on('click', saveProject)
 
 function getRandomColors() {
   const colorsArray = [];
@@ -32,4 +33,9 @@ function generatePalette() {
 function toggleLock() {
   $(this).find('img').toggle();
   $(this).toggleClass('lock');
+}
+
+function saveProject() {
+  const project = $('#project-input').val();
+  $('#project-input').val('');
 }
