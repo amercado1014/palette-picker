@@ -38,16 +38,21 @@ function toggleLock() {
 }
 
 function prependProject() {
-  const project = $('#project-input').val();
-  $(".projects").prepend(`
-    <article>
-      <h2>${project}</h2>
-      <div class=${project}></div>
-    </article>
-  `);
-  $('#select-project').prepend(`
-    <option value=${project}>${project}</option>
-  `)
+  const projectName = $('#project-input').val();
+  const projectsArray = $.map($('h2'), element => $(element).text());
+  const projectExist = projectsArray.find(project => project === projectName)
+
+  if (!projectExist) {
+    $(".projects").prepend(`
+      <article>
+        <h2>${projectName}</h2>
+        <div class=${projectName}></div>
+      </article>
+    `);
+    $('#select-project').prepend(`
+      <option value=${projectName}>${projectName}</option>
+    `)
+  }
   $('#project-input').val('');
 }
 
