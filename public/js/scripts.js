@@ -37,5 +37,13 @@ function toggleLock() {
 
 function saveProject() {
   const project = $('#project-input').val();
+  $('.projects').append(`
+    <div class=${project}>
+      <h2>${project}</h2>
+    </div>
+  `)
+  $('#select-project').append(`
+    <option value=${project}>${project}</option>
+  `)
   $('#project-input').val('');
 }
