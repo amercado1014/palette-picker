@@ -6,6 +6,7 @@ $('.generate-button').on('click', generatePalette);
 $('.colors').on('click', toggleLock);
 $('.save-project').on('click', prependProject);
 $('.save-palette').on('click', prependPalette);
+$('.projects').on('click', '.delete-palette', deletePalette);
 
 function getRandomColors() {
   const colorsArray = [];
@@ -72,5 +73,10 @@ function prependPalette() {
         alt="trash can"/>
     </article>
   `)
+  $('.palette-input').val('');
+}
+
+function deletePalette(event) {
+  event.target.closest('article').remove();
 }
 
