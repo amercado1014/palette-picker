@@ -4,13 +4,10 @@ const bodyParser = require('body-parser');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static('public'));
 
 app.set('port', process.env.PORT || 3000);
 app.locals.title = 'Palette Picker';
-
-app.get('/', (request, response) => {
-  response.send('Palette Picker!');
-});
 
 app.get('/api/v1/projects', (request, response) => {
 
