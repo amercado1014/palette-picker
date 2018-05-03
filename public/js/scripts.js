@@ -1,5 +1,6 @@
 window.onload = () => {
   generatePalette();
+  getProjects();
 }
 
 $('.generate-button').on('click', generatePalette);
@@ -95,4 +96,31 @@ function setMainPaletteColors() {
     $(`.color${index}`).css('background-color', color);
     $(`.color${index}`).children('span').text(color);
   })
+}
+
+async function getProjects() {
+  const url = '/api/v1/projects';
+
+  try {
+    const response = await fetch(url);
+    const projects = await response.json();
+    prependProjectsFromDb(projects);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+function prependProjectsFromDb(projects) {
+  projects.forEach(project => {
+    const { project_name , id } = project;
+    $(".projects").prepend(`
+      <article>
+        <h2>${project_name}</h2>
+        <div class=${id}></div>
+      </article>
+    `);
+    $("#select-project").prepend(`
+      <option value=${project_name}>${project_name}</option>
+    `);
+  });
 }
