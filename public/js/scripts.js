@@ -7,6 +7,8 @@ $('.colors').on('click', toggleLock);
 $('.save-project').on('click', prependProject);
 $('.save-palette').on('click', prependPalette);
 $('.projects').on('click', '.delete-palette', deletePalette);
+$('.projects').on('click', '.palette-colors', setMainPaletteColors);
+$('.projects').on('click', '.palette-name', setMainPaletteColors);
 
 function getRandomColors() {
   const colorsArray = [];
@@ -63,15 +65,16 @@ function prependPalette() {
 
   const paletteColors = colors.map(color => {
     return (`
-      <div class="project-colors"
+      <div class="palette-colors"
         style="background-color:${color}">
+        <p class="color-text">${color}</p>
       </div>
     `)
   })
 
   $(`.${projectName}`).prepend(`
     <article>
-      <p>${paletteName}</p>
+      <p class="palette-name">${paletteName}</p>
       ${paletteColors.join('')}
       <img class="delete-palette" 
         src="../images/waste-bin.svg" 
@@ -85,3 +88,11 @@ function deletePalette(event) {
   event.target.closest('article').remove();
 }
 
+function setMainPaletteColors() {
+  const paletteColors = $.map($('.color-text'), element => $(element).text());
+  
+  paletteColors.map((color, index) => {
+    $(`.color${index}`).css('background-color', color);
+    $(`.color${index}`).children('span').text(color);
+  })
+}

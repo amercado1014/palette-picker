@@ -36,7 +36,7 @@
   display: none;
 }
 
-.project-colors {
+.palette-colors {
   height: 30px;
   width: 30px;
   display: inline-block;
@@ -50,4 +50,8 @@
 .colors img {
   height: 50px;
   width: 50px
+}
+
+.color-text {
+  visibility: hidden;
 }
