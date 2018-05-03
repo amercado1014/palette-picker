@@ -41,16 +41,19 @@ function toggleLock() {
   $(this).toggleClass('lock');
 }
 
-function prependProject() {
+async function prependProject() {
   const projectName = $('#project-input').val();
   const projectsArray = $.map($('h2'), element => $(element).text());
   const projectExist = projectsArray.find(project => project === projectName)
 
   if (!projectExist) {
+    const project = { project_name: projectName };
+    const projectId = await postProject(project);
+    console.log(projectId)
     $(".projects").prepend(`
       <article>
         <h2>${projectName}</h2>
-        <div class=${projectName}></div>
+        <div class=${projectId}></div>
       </article>
     `);
     $('#select-project').prepend(`
@@ -139,7 +142,6 @@ async function getPalettes() {
 }
 
 function prependPalettesFromDb(palettes) {
-  console.log(palettes)
   palettes.forEach(palette => {
     const { colors_array, id, palette_name, project_id } = palette;
 
@@ -162,4 +164,20 @@ function prependPalettesFromDb(palettes) {
     </article>
   `);
   })
+}
+
+async function postProject(projectName) {
+  const url = '/api/v1/projects';
+
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(projectName),
+      headers: { 'Content-Type': 'application/json' }
+    });
+    const projectId = response.json();
+    return projectId; 
+  } catch (error) {
+    console.log(error);
+  }
 }
