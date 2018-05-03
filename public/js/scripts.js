@@ -1,6 +1,7 @@
 window.onload = () => {
   generatePalette();
   getProjects();
+  getPalettes();
 }
 
 $('.generate-button').on('click', generatePalette);
@@ -123,4 +124,42 @@ function prependProjectsFromDb(projects) {
       <option value=${project_name}>${project_name}</option>
     `);
   });
+}
+
+async function getPalettes() {
+  const url = '/api/v1/palettes';
+
+  try {
+    const response = await fetch(url);
+    const palettes = await response.json();
+    prependPalettesFromDb(palettes);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+function prependPalettesFromDb(palettes) {
+  console.log(palettes)
+  palettes.forEach(palette => {
+    const { colors_array, id, palette_name, project_id } = palette;
+
+    const paletteColors = colors_array.map(color => {
+      return (`
+        <div class="palette-colors"
+          style="background-color:${color}">
+          <p class="color-text">${color}</p>
+        </div>
+      `)
+    });
+
+    $(`.${project_id}`).prepend(`
+    <article>
+      <p class="palette-name">${palette_name}</p>
+      ${paletteColors.join('')}
+      <img class="delete-palette" 
+        src="../images/waste-bin.svg" 
+        alt="trash can"/>
+    </article>
+  `);
+  })
 }

@@ -11,7 +11,7 @@ exports.seed = function(knex, Promise) {
             { 
               palette_name: 'Palette 1',
               project_id: project[0],
-              colors_array: ['#877B98','#A5570B','#A225F7', '#3984EC1', '#880625']
+              colors_array: ['#877B98','#A5570B','#A225F7', '#3984EC', '#880625']
             },
             {
               palette_name: 'Palette 2',
