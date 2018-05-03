@@ -49,11 +49,10 @@ async function prependProject() {
   if (!projectExist) {
     const project = { project_name: projectName };
     const projectId = await postProject(project);
-    console.log(projectId)
     $(".projects").prepend(`
       <article>
-        <h2>${projectName}</h2>
-        <div class=${projectId}></div>
+        <h2 class=${projectName} data-id=${projectId.id}>${projectName}</h2>
+        <div class=${projectId.id}></div>
       </article>
     `);
     $('#select-project').prepend(`
@@ -63,10 +62,21 @@ async function prependProject() {
   $('#project-input').val('');
 }
 
-function prependPalette() {
+async function prependPalette() {
   const paletteName = $('.palette-input').val();
   const projectName = $('#select-project').val();
+  const projectId = $(`.${projectName}`).data('id');
+  console.log({projectId})
   const colors = $.map($('span'), element => $(element).text());
+
+  const paletteData = {
+    palette_name: paletteName,
+    project_id: projectId,
+    colors_array: colors
+  }
+
+  const paletteId = await postPalette(paletteData);
+  console.log({paletteId})
 
   const paletteColors = colors.map(color => {
     return (`
@@ -77,7 +87,7 @@ function prependPalette() {
     `)
   })
 
-  $(`.${projectName}`).prepend(`
+  $(`.${projectId}`).prepend(`
     <article>
       <p class="palette-name">${paletteName}</p>
       ${paletteColors.join('')}
@@ -117,13 +127,13 @@ async function getProjects() {
 function prependProjectsFromDb(projects) {
   projects.forEach(project => {
     const { project_name , id } = project;
-    $(".projects").prepend(`
+    $('.projects').prepend(`
       <article>
-        <h2>${project_name}</h2>
+        <h2 class=${project_name} data-id=${id}>${project_name}</h2>
         <div class=${id}></div>
       </article>
     `);
-    $("#select-project").prepend(`
+    $('#select-project').prepend(`
       <option value=${project_name}>${project_name}</option>
     `);
   });
@@ -177,6 +187,22 @@ async function postProject(projectName) {
     });
     const projectId = response.json();
     return projectId; 
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function postPalette(paletteData) {
+  const url = "/api/v1/palettes";
+
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(paletteData),
+      headers: { 'Content-Type': 'application/json' }
+    });
+    const paletteId = response.json();
+    return paletteId
   } catch (error) {
     console.log(error);
   }
