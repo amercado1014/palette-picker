@@ -1,4 +1,57 @@
 .title {
   font-size: 25px;
   color: red;
+  text-align: center;
+}
+
+.palette {
+  display: flex;
+  justify-content: space-around;
+}
+
+.colors {
+  height: 200px;
+  width: 200px;
+}
+
+.generate-button {
+  display: block;
+  margin: 20px auto;
+}
+
+.palette-saver {
+  text-align: center;
+}
+
+.project-creator {
+  width: 20%;
+  margin: auto;
+}
+
+.project-label {
+  display: block;
+}
+
+.locked {
+  display: none;
+}
+
+.palette-colors {
+  height: 30px;
+  width: 30px;
+  display: inline-block;
+}
+
+.delete-palette {
+  height: 30px;
+  widows: 30px;
+}
+
+.colors img {
+  height: 50px;
+  width: 50px
+}
+
+.color-text {
+  visibility: hidden;
 }

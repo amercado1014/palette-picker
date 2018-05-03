@@ -9,6 +9,49 @@
 </head>
 <body>
   <h1 class="title">Palette Picker</h1>
-<script type="text/javascript" src="./js/scripts.js"></script>
+  <section class="palette">
+    <div class="colors color0">
+      <span></span>
+      <img src="./images/unlocked.svg" alt="open lock">
+      <img class="locked" src="./images/locked.svg" alt="closed lock" >
+    </div>
+    <div class="colors color1">
+      <span></span>
+      <img src="./images/unlocked.svg" alt="open lock">
+      <img class="locked" src="./images/locked.svg" alt="closed lock">
+    </div>
+    <div class="colors color2">
+      <span></span>
+      <img src="./images/unlocked.svg" alt="open lock">
+      <img class="locked" src="./images/locked.svg" alt="closed lock">
+    </div>
+    <div class="colors color3">
+      <span></span>
+      <img src="./images/unlocked.svg" alt="open lock">
+      <img class="locked" src="./images/locked.svg" alt="closed lock">
+    </div>
+    <div class="colors color4">
+      <span></span>
+      <img src="./images/unlocked.svg" alt="open lock">
+      <img class="locked" src="./images/locked.svg" alt="closed lock">
+    </div>
+  </section>
+  <button class="generate-button" type="submit">Generate New Palette</button>
+  <section class="palette-saver">
+    <select id="select-project">
+      <option value="default">Select Project</option>
+    </select>
+    <input type="text" class="palette-input">
+    <button class="save-palette" type="submit">Save Palette</button>
+  </section>
+  <hr>
+  <section class="project-creator">
+    <label class="project-label" for="project-input">Create a new project:</label>
+    <input type="text" name="project-input" id="project-input">
+    <button class="save-project" type="submit">Save Project</button>
+  </section>
+  <section class="projects"></section>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script type="text/javascript" src="./js/scripts.js"></script>
 </body>
 </html>
