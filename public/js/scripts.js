@@ -88,7 +88,7 @@ async function prependPalette() {
   })
 
   $(`.${projectId}`).prepend(`
-    <article>
+    <article data-id=${paletteId.id}>
       <p class="palette-name">${paletteName}</p>
       ${paletteColors.join('')}
       <img class="delete-palette" 
@@ -101,6 +101,8 @@ async function prependPalette() {
 
 function deletePalette(event) {
   event.target.closest('article').remove();
+  const id = { id: $(this).parent().data('id') };
+  deletePaletteFromDb(id);
 }
 
 function setMainPaletteColors() {
@@ -165,7 +167,7 @@ function prependPalettesFromDb(palettes) {
     });
 
     $(`.${project_id}`).prepend(`
-    <article>
+    <article data-id=${id}>
       <p class="palette-name">${palette_name}</p>
       ${paletteColors.join('')}
       <img class="delete-palette" 
@@ -203,6 +205,22 @@ async function postPalette(paletteData) {
     });
     const paletteId = response.json();
     return paletteId
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function deletePaletteFromDb(paletteId) {
+  const url = "/api/v1/palettes";
+
+  try {
+    const response = await fetch(url, {
+      method: 'DELETE',
+      body: JSON.stringify(paletteId),
+      headers: { 'Content-Type': 'application/json' }
+    });
+    const status = response.json();
+    console.log(status)
   } catch (error) {
     console.log(error);
   }
