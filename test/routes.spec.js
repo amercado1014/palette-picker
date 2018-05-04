@@ -78,6 +78,23 @@ describe('API Routes', () => {
       });
   });
 
+  it('GET palette by id should return an error if palette is not found', done => {
+    const paletteId = 3;
+
+    chai.request(app)
+      .get(`/api/v1/palettes/${paletteId}`)
+      .send({
+        id: paletteId
+      })
+      .end((err, response) => {
+        response.should.have.status(404);
+        response.should.be.json;
+        response.body.should.have.property('error');
+        response.body.error.should.equal('Could not find palette with id 3');
+        done();
+      });
+  });
+
   it('POST project should create a new project', done => {
     chai.request(app)
       .post('/api/v1/projects')
