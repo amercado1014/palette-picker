@@ -44,11 +44,17 @@
     </select>
     <input type="text" placeholder="Enter palette name" class="palette-input">
     <button class="save-palette" type="submit">Save Palette</button>
+    <div class="error">
+      <p class="palette-error">Please select a project and enter a palette name</p>
+    </div>
   </section>
   <section class="project-creator">
     <label class="project-label" for="project-input">Create a new project:</label>
     <input type="text" placeholder="Enter project name" name="project-input" id="project-input">
     <button class="save-project" type="submit">Save Project</button>
+    <div class="error">
+      <p class="project-error">Please enter a project name.</p>
+    </div>
   </section>
   <hr>
   <section class="projects"></section>

@@ -46,11 +46,16 @@ async function prependProject() {
   const projectsArray = $.map($('h2'), element => $(element).text());
   const projectExist = projectsArray.find(project => project === projectName)
 
-  if (!projectExist) {
+  if (!projectName) {
+    $('.project-error').show();  
+  }
+
+  if (!projectExist && projectName) {
     const project = { project_name: projectName };
     const postedProject = await postProject(project);
-    $(".projects").prepend(`
-      <article class="project">
+    $('.project-error').hide();
+    $('.projects').prepend(`
+      <article class='project'>
         <h2 class=${projectName} data-id=${postedProject.id}>${projectName}</h2>
         <div class=${postedProject.id}></div>
       </article>
@@ -74,7 +79,13 @@ async function prependPalette() {
     colors_array: colors
   }
 
+  if (projectName === 'default' || !paletteName ) {
+    $('.palette-error').show();
+  }
+
+  if (projectName !== 'default' && paletteName) {
   const postedPalette = await postPalette(paletteData);
+  $('.palette-error').hide();
 
   const paletteColors = colors.map(color => {
     return (`
@@ -94,6 +105,7 @@ async function prependPalette() {
     </article>
   `)
   $('.palette-input').val('');
+  }
 }
 
 function deletePalette(event) {
