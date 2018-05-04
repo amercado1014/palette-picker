@@ -50,7 +50,7 @@ async function prependProject() {
     const project = { project_name: projectName };
     const postedProject = await postProject(project);
     $(".projects").prepend(`
-      <article>
+      <article class="project">
         <h2 class=${projectName} data-id=${postedProject.id}>${projectName}</h2>
         <div class=${postedProject.id}></div>
       </article>
@@ -128,7 +128,7 @@ function prependProjectsFromDb(projects) {
   projects.forEach(project => {
     const { project_name , id } = project;
     $('.projects').prepend(`
-      <article>
+      <article class="project">
         <h2 class=${project_name} data-id=${id}>${project_name}</h2>
         <div class=${id}></div>
       </article>
@@ -196,7 +196,7 @@ async function postProject(projectName) {
       body: JSON.stringify(projectName),
       headers: { 'Content-Type': 'application/json' }
     });
-    const projectId = response.json();
+    const projectId = await response.json();
     return projectId; 
   } catch (error) {
     console.log(error);
@@ -212,7 +212,7 @@ async function postPalette(paletteData) {
       body: JSON.stringify(paletteData),
       headers: { 'Content-Type': 'application/json' }
     });
-    const paletteId = response.json();
+    const paletteId = await response.json();
     return paletteId
   } catch (error) {
     console.log(error);
