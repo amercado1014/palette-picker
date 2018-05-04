@@ -1,9 +1,33 @@
 const chai = require('chai');
 const should = chai.should();
-const { app, database } = require('../server');
+const server = require('../server');
 const chaiHttp = require('chai-http');
+const environment = 'test'
+const configuration = require('../knexfile')[environment]
+const database = require('knex')(configuration)
 
 chai.use(chaiHttp);
+
+describe('Client Routes', () => {
+  it('should return the home page', done => {
+    chai.request(server)
+      .get('/')
+      .end((err, response) => {
+        response.should.have.status(200);
+        response.should.be.html;
+        done();
+      })
+  });
+
+  it('should return a 404 for a route that does not exist', done => {
+    chai.request(server)
+      .get('/sad')
+      .end((err, response) => {
+        response.should.have.status(404);
+        done();
+      })
+  });
+})
 
 describe('API Routes', () => {
   beforeEach(done => {
@@ -20,7 +44,7 @@ describe('API Routes', () => {
   });
 
   it('GET projects should return all the projects', done => {
-    chai.request(app)
+    chai.request(server)
       .get('/api/v1/projects')
       .end((err, response) => {
         response.should.have.status(200);
@@ -36,7 +60,7 @@ describe('API Routes', () => {
   });
 
   it('GET palettes should return all of the palettes', done => {
-    chai.request(app)
+    chai.request(server)
       .get('/api/v1/palettes')
       .end((err, response) => {
         response.should.have.status(200);
@@ -57,7 +81,7 @@ describe('API Routes', () => {
   it('GET palette by id should return a single palette', done => {
     const paletteId = 1;
 
-    chai.request(app)
+    chai.request(server)
       .get(`/api/v1/palettes/${paletteId}`)
       .send({
         id: paletteId
@@ -81,7 +105,7 @@ describe('API Routes', () => {
   it('GET palette by id should return an error if palette is not found', done => {
     const paletteId = 3;
 
-    chai.request(app)
+    chai.request(server)
       .get(`/api/v1/palettes/${paletteId}`)
       .send({
         id: paletteId
@@ -96,7 +120,7 @@ describe('API Routes', () => {
   });
 
   it('POST project should create a new project', done => {
-    chai.request(app)
+    chai.request(server)
       .post('/api/v1/projects')
       .send({
         project_name: 'Project2'
@@ -112,7 +136,7 @@ describe('API Routes', () => {
   });
 
   it('POST project should not create a project with missing data ', done => {
-    chai.request(app)
+    chai.request(server)
       .post('/api/v1/projects')
       .send({})
       .end((err, response) => {
@@ -124,7 +148,7 @@ describe('API Routes', () => {
   });
 
   it('POST palette should create a new palette', done => {
-    chai.request(app)
+    chai.request(server)
       .post('/api/v1/palettes')
       .send({
         palette_name: 'Palette3',
@@ -148,7 +172,7 @@ describe('API Routes', () => {
   });
 
   it('POST palette should not create a palette with missing data ', done => {
-    chai.request(app)
+    chai.request(server)
       .post('/api/v1/palettes')
       .send({
         palette_name: 'Palette3',
@@ -163,7 +187,7 @@ describe('API Routes', () => {
   });
 
   it('DELETE palette should remove palette from database', done => {
-    chai.request(app)
+    chai.request(server)
       .delete('/api/v1/palettes')
       .send({
         id: 1
@@ -179,7 +203,7 @@ describe('API Routes', () => {
   });
 
   it('DELETE palette should not remove a palette when missing data', done => {
-    chai.request(app)
+    chai.request(server)
       .delete('/api/v1/palettes')
       .send({})
       .end((err, response) => {
