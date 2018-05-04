@@ -48,11 +48,11 @@ async function prependProject() {
 
   if (!projectExist) {
     const project = { project_name: projectName };
-    const projectId = await postProject(project);
+    const postedProject = await postProject(project);
     $(".projects").prepend(`
       <article>
-        <h2 class=${projectName} data-id=${projectId.id}>${projectName}</h2>
-        <div class=${projectId.id}></div>
+        <h2 class=${projectName} data-id=${postedProject.id}>${projectName}</h2>
+        <div class=${postedProject.id}></div>
       </article>
     `);
     $('#select-project').prepend(`
@@ -66,7 +66,6 @@ async function prependPalette() {
   const paletteName = $('.palette-input').val();
   const projectName = $('#select-project').val();
   const projectId = $(`.${projectName}`).data('id');
-  console.log({projectId})
   const colors = $.map($('span'), element => $(element).text());
 
   const paletteData = {
@@ -75,20 +74,18 @@ async function prependPalette() {
     colors_array: colors
   }
 
-  const paletteId = await postPalette(paletteData);
-  console.log({paletteId})
+  const postedPalette = await postPalette(paletteData);
 
   const paletteColors = colors.map(color => {
     return (`
       <div class="palette-colors"
         style="background-color:${color}">
-        <p class="color-text">${color}</p>
       </div>
     `)
   })
 
   $(`.${projectId}`).prepend(`
-    <article data-id=${paletteId.id}>
+    <article data-id=${postedPalette.id}>
       <p class="palette-name">${paletteName}</p>
       ${paletteColors.join('')}
       <img class="delete-palette" 
@@ -105,10 +102,11 @@ function deletePalette(event) {
   deletePaletteFromDb(id);
 }
 
-function setMainPaletteColors() {
-  const paletteColors = $.map($('.color-text'), element => $(element).text());
+async function setMainPaletteColors() {
+  const id = $(this).parent().data('id');
+  const palette = await getPaletteById(id);
   
-  paletteColors.map((color, index) => {
+  palette[0].colors_array.map((color, index) => {
     $(`.color${index}`).css('background-color', color);
     $(`.color${index}`).children('span').text(color);
   })
@@ -156,26 +154,37 @@ async function getPalettes() {
 function prependPalettesFromDb(palettes) {
   palettes.forEach(palette => {
     const { colors_array, id, palette_name, project_id } = palette;
-
+    
     const paletteColors = colors_array.map(color => {
       return (`
-        <div class="palette-colors"
-          style="background-color:${color}">
-          <p class="color-text">${color}</p>
-        </div>
+      <div class="palette-colors"
+      style="background-color:${color}">
+      </div>
       `)
     });
-
+    
     $(`.${project_id}`).prepend(`
     <article data-id=${id}>
-      <p class="palette-name">${palette_name}</p>
-      ${paletteColors.join('')}
-      <img class="delete-palette" 
-        src="../images/waste-bin.svg" 
-        alt="trash can"/>
+    <p class="palette-name">${palette_name}</p>
+    ${paletteColors.join('')}
+    <img class="delete-palette" 
+    src="../images/waste-bin.svg" 
+    alt="trash can"/>
     </article>
-  `);
+    `);
   })
+}
+
+async function getPaletteById(id) {
+  const url = `/api/v1/palettes/${id}`;
+
+  try {
+    const response = await fetch(url);
+    const palette = await response.json();
+    return palette
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 async function postProject(projectName) {
