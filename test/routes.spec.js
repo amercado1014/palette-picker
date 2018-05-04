@@ -177,4 +177,16 @@ describe('API Routes', () => {
         done();
       });
   });
+
+  it('DELETE palette should not remove a palette when missing data', done => {
+    chai.request(app)
+      .delete('/api/v1/palettes')
+      .send({})
+      .end((err, response) => {
+        response.should.have.status(422);
+        response.body.should.have.property('error');
+        response.body.error.should.equal(`You're missing an id property.`);
+        done();
+      });
+  });
 });

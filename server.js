@@ -73,7 +73,15 @@ app.post('/api/v1/palettes', (request, response) => {
 });
 
 app.delete('/api/v1/palettes', (request, response) => {
-  database('palettes').where('id', request.body.id).del()
+  const id = request.body.id
+
+  if (!id) {
+    return response
+      .status(422)
+      .send({ error: `You're missing an id property.` });
+  }
+
+  database('palettes').where('id', id).del()
     .then(palette => response.status(200).json({ message: `Deleted palette with id ${request.body.id}`}))
     .catch(error => response.status(500).json({ error }))
 });
