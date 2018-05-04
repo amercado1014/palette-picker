@@ -173,3 +173,13 @@ h2 {
 .palette-colors:hover {
   border: 1px solid white;
 }
+
+.project-error,
+.palette-error {
+  color: red;
+  display: none;
+}
+
+.error {
+  height: 10px;
+}
