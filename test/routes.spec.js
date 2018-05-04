@@ -32,7 +32,7 @@ describe('API Routes', () => {
         response.body[0].should.have.property('project_name');
         response.body[0].project_name.should.equal('Project1');
         done();
-      })
+      });
   });
 
   it('GET palettes should return all of the palettes', done => {
@@ -51,7 +51,7 @@ describe('API Routes', () => {
         response.body[0].colors_array.should.be.an('array');
         response.body[0].colors_array.length.should.equal(5);
         done();
-      })
+      });
   });
 
   it('GET palette by id should return a single palette', done => {
@@ -75,6 +75,34 @@ describe('API Routes', () => {
         response.body[0].colors_array.should.be.an('array');
         response.body[0].colors_array.length.should.equal(5);
         done();
+      });
+  });
+
+  it('POST project should create a new project', done => {
+    chai.request(app)
+      .post('/api/v1/projects')
+      .send({
+        project_name: 'Project2'
       })
+      .end((err, response) => {
+        response.should.have.status(201);
+        response.should.be.json;
+        response.body.should.be.an('object');
+        response.body.should.have.property('id');
+        response.body.id.should.equal(2);
+        done();
+      });
+  });
+
+  it('POST project should not create a project with missing data ', done => {
+    chai.request(app)
+      .post('/api/v1/projects')
+      .send({})
+      .end((err, response) => {
+        response.should.have.status(422);
+        response.body.should.have.property('error');
+        response.body.error.should.equal(`Expected format: { project_name: <String> }. You're missing a project_name property.`);
+        done();
+      });
   });
 });
