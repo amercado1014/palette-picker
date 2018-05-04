@@ -228,8 +228,7 @@ async function deletePaletteFromDb(paletteId) {
       body: JSON.stringify(paletteId),
       headers: { 'Content-Type': 'application/json' }
     });
-    const status = response.json();
-    console.log(status)
+    const status = await response.json();
   } catch (error) {
     console.log(error);
   }
