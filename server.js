@@ -59,11 +59,11 @@ app.post('/api/v1/projects', (request, response) => {
 app.post('/api/v1/palettes', (request, response) => {
     const palette = request.body;
 
-  for (let requiredParameter of ['palette_name']) {
+  for (let requiredParameter of ['palette_name', 'project_id', 'colors_array']) {
     if (!palette[requiredParameter]) {
       return response
         .status(422)
-        .send({ error: `Expected format: { palette_name: <String> }. You're missing a ${requiredParameter} property.`});
+        .send({ error: `You're missing a ${requiredParameter} property.`});
     }
   }
 
@@ -74,7 +74,7 @@ app.post('/api/v1/palettes', (request, response) => {
 
 app.delete('/api/v1/palettes', (request, response) => {
   database('palettes').where('id', request.body.id).del()
-    .then(palette => response.status(202))
+    .then(palette => response.status(200).json({ message: `Deleted palette with id ${request.body.id}`}))
     .catch(error => response.status(500).json({ error }))
 });
 

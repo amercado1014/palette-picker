@@ -122,4 +122,59 @@ describe('API Routes', () => {
         done();
       });
   });
+
+  it('POST palette should create a new palette', done => {
+    chai.request(app)
+      .post('/api/v1/palettes')
+      .send({
+        palette_name: 'Palette3',
+        project_id: '1',
+        colors_array: [
+            '#423B54',
+            '#E9F6B5',
+            '#514E28',
+            '#6E974E',
+            '#5D8807'
+        ]
+      })
+      .end((err, response) => {
+        response.should.have.status(201);
+        response.should.be.json;
+        response.body.should.be.an('object');
+        response.body.should.have.property('id');
+        response.body.id.should.equal(3);
+        done();
+      });
+  });
+
+  it('POST palette should not create a palette with missing data ', done => {
+    chai.request(app)
+      .post('/api/v1/palettes')
+      .send({
+        palette_name: 'Palette3',
+        project_id: '1'
+      })
+      .end((err, response) => {
+        response.should.have.status(422);
+        response.body.should.have.property('error');
+        response.body.error.should.equal(`You're missing a colors_array property.`);
+        done();
+      });
+  });
+
+  it('DELETE palette should remove palette from database', done => {
+    chai.request(app)
+      .delete('/api/v1/palettes')
+      .send({
+        id: 1
+      })
+      .end((err, response) => {
+        response.should.have.status(200);
+        response.should.be.json;
+        response.body.should.be.an('object');
+        response.body.should.have.property('message');
+        response.body.message.should.equal('Deleted palette with id 1');
+        done();
+      });
+  });
 });
