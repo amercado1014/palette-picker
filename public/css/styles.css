@@ -1,35 +1,54 @@
+*,
+*:after,
+*:before {
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif; 
+  margin: 0;
+}
+
+body {
+  background-color: lightgrey;
+}
 .title {
-  font-size: 25px;
-  color: red;
+  font-family: 'Anton', sans-serif;
+  font-size: 45px;
+  color: black;
   text-align: center;
 }
 
 .palette {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
+  width: 100%;
 }
 
 .colors {
-  height: 200px;
-  width: 200px;
+  height: 206px;
+  width: 20%;
 }
 
 .generate-button {
   display: block;
   margin: 20px auto;
+  padding: 6.5px 25px;
+  font-size: 20px;
 }
 
 .palette-saver {
   text-align: center;
+  margin-bottom: 20px;
 }
 
 .project-creator {
-  width: 20%;
-  margin: auto;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
-.project-label {
+.project-label { 
   display: block;
+  font-size: 21px;
+  font-weight: 700;
 }
 
 .locked {
@@ -40,18 +59,117 @@
   height: 30px;
   width: 30px;
   display: inline-block;
+  cursor: pointer;
 }
 
 .delete-palette {
   height: 30px;
   widows: 30px;
+  cursor: pointer;
+  border-radius: 50%;
 }
 
 .colors img {
-  height: 50px;
-  width: 50px
+  height: 30px;
+  width: 30px;
+  margin: 5px;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.colors img:hover {
+  background-color: white;
 }
 
 .color-text {
-  visibility: hidden;
+  float: right;
+  font-size: 25px;
+  margin: 5px;
+}
+
+.locked,
+.unlocked {
+  float: left;
+}
+
+button:focus,
+#select-project:focus {
+  outline: none;
+}
+
+button {
+  background: -webkit-linear-gradient(top, #0f0f10, #707e87);
+  color: white;
+  text-decoration: none;
+  border-radius: 13px;
+  cursor: pointer;
+}
+
+button:hover,
+#select-project:hover {
+  background: #28597a;
+  color: #ccc;
+}
+
+button:active {
+  background: #1b435e;
+}
+
+#select-project {
+  height: 20px;
+  background: -webkit-linear-gradient(top, #0f0f10, #707e87);
+  color: white;
+  cursor: pointer;
+}
+
+input {
+  height: 20px;
+}
+
+.save-palette,
+.save-project {
+  font-size: 13px;
+}
+
+input::placeholder {
+  font-size: 12px;
+}
+
+h2 {
+  font-weight: 700;
+  margin-bottom: 10px;
+
+}
+
+.projects {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.project {
+  margin: 29px;
+  min-height: 300px;
+  min-width: 20%;
+  max-width: 20%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.palette-name {
+  cursor: pointer;
+  display: table;
+}
+
+.delete-palette:hover {
+  background-color: white;
+}
+
+.palette-name:hover {
+  color: white;
+}
+
+.palette-colors:hover {
+  border: 1px solid white;
 }
