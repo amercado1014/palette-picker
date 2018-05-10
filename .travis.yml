@@ -1,6 +1,5 @@
 language: node_js
 node_js: "node"
-services:
-  -postgresql
+services: postgresql
 before_script:
-  -psql -c 'create database palettes_test;' -U postgres
+  - psql -c 'create database palettes_test;' -U postgres
