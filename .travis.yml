@@ -1,6 +1,2 @@
-{
-  "os": "linux",
-  "dist": "trusty",
-  "group": "stable",
-  "language": "node_js"
-}
+language: node_js
+node_js: "9"
